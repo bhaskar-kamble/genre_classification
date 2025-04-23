@@ -1,9 +1,9 @@
 import mlflow
 import os
 import hydra
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig, OmegaConf, ListConfig
 
-
+os.environ["HYDRA_FULL_ERROR"] = "1"
 # This automatically reads in the configuration
 @hydra.main(config_name='config')
 def go(config: DictConfig):
@@ -20,7 +20,8 @@ def go(config: DictConfig):
         # This was passed on the command line as a comma-separated list of steps
         steps_to_execute = config["main"]["execute_steps"].split(",")
     else:
-        assert isinstance(config["main"]["execute_steps"], list)
+        #assert isinstance(config["main"]["execute_steps"], ListConfig)
+        #assert isinstance(config["main"]["execute_steps"], list), (f"Expected a list for main.execute_steps, got {type(config['main']['execute_steps']).__name__}: "f"{config['main']['execute_steps']}")
         steps_to_execute = config["main"]["execute_steps"]
 
     # Download step
